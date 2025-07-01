@@ -1,0 +1,112 @@
+// JavaScript لتفعيل قائمة التنقل المتجاوبة (Hamburger Menu)
+document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mainNav = document.querySelector('.main-nav');
+
+    if (menuToggle && mainNav) {
+        menuToggle.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+        });
+    }
+
+    // إغلاق قائمة التنقل عند النقر على رابط (لتحسين تجربة المستخدم على الجوال)
+    const navLinks = document.querySelectorAll('.main-nav ul li a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (mainNav.classList.contains('active')) {
+                mainNav.classList.remove('active');
+            }
+        });
+    });
+});
+
+// JavaScript لإدارة نافذة التسجيل المنبثقة (Modal)
+const registrationModal = document.getElementById('registrationModal');
+
+function openRegistrationModal() {
+    registrationModal.style.display = 'flex'; // Use flex to center
+}
+
+function closeRegistrationModal() {
+    registrationModal.style.display = 'none';
+}
+
+// إغلاق النافذة عند النقر خارجها
+window.addEventListener('click', (event) => {
+    if (event.target === registrationModal) {
+        closeRegistrationModal();
+    }
+});
+
+// ملء قائمة الولايات (يمكن استدعاء هذه الوظيفة عند تحميل الصفحة)
+function populateWilayas() {
+    const wilayas = [
+        "أدرار", "الشلف", "الأغواط", "أم البواقي", "باتنة", "بجاية", "بسكرة", "بشار", "البليدة", "البويرة",
+        "تمنراست", "تبسة", "تلمسان", "تيارت", "تيزي وزو", "الجزائر", "الجلفة", "جيجل", "سطيف", "سعيدة",
+        "سكيكدة", "سيدي بلعباس", "عنابة", "قالمة", "قسنطينة", "المدية", "مستغانم", "المسيلة", "معسكر",
+        "ورقلة", "وهران", "البيض", "إليزي", "برج بوعريريج", "بومرداس", "الطارف", "تندوف", "تيسمسيلت",
+        "الوادي", "خنشلة", "سوق أهراس", "تيبازة", "ميلة", "عين الدفلى", "النعامة", "عين تموشنت", "غرداية",
+        "غليزان", "تيميمون", "برج باجي مختار", "أولاد جلال", "بني عباس", "عين صالح", "عين قزام", "تقرت",
+        "جانت", "المغير", "المنيعة"
+    ];
+    const wilayaSelect = document.querySelector('.registration-form select');
+    // التأكد من أن wilayaSelect موجود قبل محاولة إضافة الخيارات إليه
+    if (wilayaSelect) {
+        wilayas.forEach(wilaya => {
+            const option = document.createElement('option');
+            option.value = wilaya;
+            option.textContent = wilaya;
+            wilayaSelect.appendChild(option);
+        });
+    } else {
+        console.warn("Element with class 'registration-form select' not found. Wilayas dropdown may not be populated.");
+    }
+}
+
+// استدعاء دالة ملء الولايات عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', populateWilayas);
+
+
+// دمج خرائط جوجل (مثال، يتطلب مفتاح API)
+// ستحتاج إلى الحصول على مفتاح Google Maps API وتضمينه في ملف HTML الخاص بك
+// <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+/*
+function initMap() {
+    const algeriaCenter = { lat: 28.0339, lng: 1.6596 }; // مركز الجزائر
+    const map = new google.maps.Map(document.getElementById('google-map'), {
+        zoom: 5,
+        center: algeriaCenter,
+    });
+
+    // يمكنك إضافة علامات للمستشفيات والعيادات هنا
+    // مثال:
+    // const hospitalMarker = new google.maps.Marker({
+    //      position: { lat: 36.7538, lng: 3.0588 }, // إحداثيات مستشفى في الجزائر العاصمة
+    //      map: map,
+    //      title: 'مستشفى مصطفى باشا',
+    //      icon: 'hospital-icon.png' // أيقونة مخصصة
+    // });
+}
+*/
+
+// وظائف مستقبلية (تتطلب تطويرًا كبيرًا للخلفية):
+// - معالجة تسجيل الدخول / التسجيل
+// - إدارة الملفات الطبية (التحميل، العرض، التعديل)
+// - نظام التذكير (بالأدوية والمواعيد)
+// - التكامل مع الذكاء الاصطناعي (لتقديم النصائح الصحية)
+// - نظام الدردشة للاستشارات عن بعد
+// - إدارة حسابات مهنيي الصحة
+// - تحليل البيانات للكشف عن الأوبئة (متقدم جدًا)
+
+// تسجيل Service Worker for PWA capabilities
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+            .then(registration => {
+                console.log('Service Worker registered with scope:', registration.scope);
+            })
+            .catch(error => {
+                console.error('Service Worker registration failed:', error);
+            });
+    });
+}
